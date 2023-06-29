@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #056aa1;
+            position: relative;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+    <title>Moving Sine Waves</title>
+</head>
+<body>
+    <canvas id="waveCanvas"></canvas>
+
+    <script>
+        // Get the canvas element
+        const canvas = document.getElementById('waveCanvas');
+        const context = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Animation properties
+        const amplitude1 = 20;
+        const amplitude2 = -15; // Negative amplitude to move the wave in the opposite direction
+        const amplitude3 = 20;
+        const frequency = 0.01;
+        let offset1 = 0;
+        let offset2 = Math.PI; // Offset for the second sine wave
+        let offset3 = Math.PI / 2; // Offset for the third sine wave
+
+        // Animation loop
+        function animate() {
+            // Clear canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the first sine wave
+            context.beginPath();
+            context.moveTo(0, canvas.height / 2);
+
+            for (let x = 0; x < canvas.width; x++) {
+                const y = canvas.height / 2 + amplitude1 * Math.sin(frequency * x + offset1);
+                context.lineTo(x, y);
+            }
+
+            context.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            context.lineWidth = 55;
+            context.stroke();
+
+            // Draw the second sine wave
+            context.beginPath();
+            context.moveTo(0, canvas.height / 2);
+
+            for (let x = 0; x < canvas.width; x++) {
+                const y = canvas.height / 2 + amplitude2 * Math.sin(frequency * x + offset2);
+                context.lineTo(x, y);
+            }
+
+            context.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            context.lineWidth = 65;
+            context.stroke();
+
+            // Draw the third sine wave
+            context.beginPath();
+            context.moveTo(0, canvas.height / 2);
+
+            for (let x = 0; x < canvas.width; x++) {
+                const y = canvas.height / 1.9 + amplitude3 * Math.sin(frequency * x + offset3);
+                context.lineTo(x, y);
+            }
+
+            context.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            context.lineWidth = 75;
+            context.stroke();
+
+            // Update offsets for animation
+            offset1 += 0.012;
+            offset2 += 0.001;
+            offset3 += 0.002;
+
+            // Request next animation frame
+            requestAnimationFrame(animate);
+        }
+
+        // Start the animation
+        animate();
+    </script>
+</body>
+</html>
